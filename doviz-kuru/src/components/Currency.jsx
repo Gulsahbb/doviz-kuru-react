@@ -1,7 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../css/currency.css';
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 function Currency() {
+    // State tanımlama
+    // Girilen Değer : Numerik
+    const [amount, setAmount] = useState(0);
+
+    // Döndürülen Değer
+    const [fromCurrency, setFromCurrency] = useState('');
+
+    // Dönen Değer
+    const [toCurrency, setToCurrency] = useState('');
+
+    // Çıkan Değer : Numberik
+    const [result, setResult] = useState(0);
+
+    const exchange = () => {
+        console.log(amount);
+        console.log(fromCurrency);
+        console.log(toCurrency);
+    };
+
+
     return (
         // Arayüzü burada tasarlıyoruz.
         <div className='currency-div'>
@@ -10,29 +30,30 @@ function Currency() {
             </div>
 
             <div style={{ marginTop: "30px" }}>
-                <input type="number" className='amount' />
+                {/*Yukarıda tanımlanan amount burada inputun value su olarak yazdık. Buraya bir değer girildiğinde bu değer setAmounta setledik.*/}
+                <input value={amount} onChange={(e) => setAmount(e.target.value)} type="number" className='amount' />
 
-                <select className='from-currency-option'>
+                <select onChange={(e) => setFromCurrency(e.target.value)} className='from-currency-option'>
                     <option>USD</option>
                     <option>EUR</option>
                     <option>TL</option>
                 </select>
                 <FaArrowRightArrowLeft style={{ fontSize: "10px", marginRight: "10px" }} />
-                <select className='to-currency-option'>
+                <select onChange={(e) => setToCurrency(e.target.value)} className='to-currency-option'>
                     <option>TL</option>
                     <option>USD</option>
                     <option>EUR</option>
                 </select>
 
-                <input type="number" className='result' />
+                <input value={result} onChange={(e) => setResult(e.target.value)} type="number" className='result' />
 
             </div>
 
             <div>
-                <button className='exchange-button'>ÇEVİR</button>
+                <button onClick={exchange} className='exchange-button'>ÇEVİR</button>
             </div>
 
-        </div>
+        </div >
     )
 }
 
