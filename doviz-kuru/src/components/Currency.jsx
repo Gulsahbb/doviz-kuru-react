@@ -1,25 +1,33 @@
 import React, { useState } from 'react'
 import '../css/currency.css';
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
+import axios from 'axios';
+
+let BASE_URL = "https://api.freecurrencyapi.com/v1/latest";
+let API_KEY = "fca_live_Al9rY0C9O3qRt2s4jwWArogNPOvUtMw1XbxzROQv";
+
 function Currency() {
     // State tanımlama
     // Girilen Değer : Numerik
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState();
 
     // Döndürülen Değer
-    const [fromCurrency, setFromCurrency] = useState('');
+    const [fromCurrency, setFromCurrency] = useState('USD');
 
     // Dönen Değer
-    const [toCurrency, setToCurrency] = useState('');
+    const [toCurrency, setToCurrency] = useState('TRY');
 
-    // Çıkan Değer : Numberik
-    const [result, setResult] = useState(0);
+    // Çıkan Değer : Numerik
+    const [result, setResult] = useState();
 
-    const exchange = () => {
-        console.log(amount);
-        console.log(fromCurrency);
-        console.log(toCurrency);
-    };
+    // Çevir butonuna tıklanıldığı anda apia istek göndermesi lazım.
+    const exchange = async () => {
+        const response = await axios.get(`${BASE_URL}?apikey=${API_KEY}&base_currency=${fromCurrency}`);
+        // İçerisindeki istediğimiz veriyi (TL) alacağız.
+        // Noktadan sonra iki basamak göstermek istiyorum. Bu yüzden toFixed kullanabiliriz.
+        const result = (response.data.data[toCurrency] * amount).toFixed(2);
+        setResult(result);
+    }
 
 
     return (
@@ -36,11 +44,11 @@ function Currency() {
                 <select onChange={(e) => setFromCurrency(e.target.value)} className='from-currency-option'>
                     <option>USD</option>
                     <option>EUR</option>
-                    <option>TL</option>
+                    <option>TRY</option>
                 </select>
                 <FaArrowRightArrowLeft style={{ fontSize: "10px", marginRight: "10px" }} />
                 <select onChange={(e) => setToCurrency(e.target.value)} className='to-currency-option'>
-                    <option>TL</option>
+                    <option>TRY</option>
                     <option>USD</option>
                     <option>EUR</option>
                 </select>
